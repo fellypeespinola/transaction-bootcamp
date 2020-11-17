@@ -7,6 +7,16 @@ const ObjectId = mongoose.Types.ObjectId;
 // descobrir esse erro :-/
 const TransactionModel = require("../models/TransactionModel");
 
+const findById = async function (req, res) {
+  try {
+    const transaction = await TransactionModel.findOne({ _id: ObjectId(req.params.id) });
+
+    res.send(transaction);
+  } catch (e) {
+    res.status(500).send({ error: e.message });
+  }
+};
+
 const findByDate = async function (req, res) {
   try {
     if (!req.query.period) throw new Error("Falta de data");
@@ -21,8 +31,47 @@ const findByDate = async function (req, res) {
 
     res.send(list);
   } catch (e) {
-    res.status(500).send({error: e.message});
+    res.status(500).send({ error: e.message });
   }
 };
 
-module.exports = { findByDate };
+const create = async function (req, res) {
+  try {
+    const transaction = new TransactionModel(req.body);
+    await transaction.save();
+
+    res.send(transaction);
+  } catch (e) {
+    res.status(500).send({ error: e.message });
+  }
+};
+
+const update = async function (req, res) {
+  try {
+    const transaction = await TransactionModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.send(transaction);
+  } catch (e) {
+    res.status(500).send({ error: e.message });
+  }
+};
+
+const deleteOne = async function (req, res) {
+  try {
+    const transaction = await TransactionModel.deleteOne(
+      {_id: ObjectId(req.params.id)}
+    );
+
+    const deleted = (transaction.n == 1) ? true : false;
+
+    res.send({deleted});
+  } catch (e) {
+    res.status(500).send({ error: e.message });
+  }
+};
+
+module.exports = { findById, findByDate, create, update, deleteOne };
