@@ -1,0 +1,37 @@
+.cardHeaderContent{
+    border-radius: 30px;
+    background-color: #fff;    
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+}
+
+.cardHeaderInfo{    
+    display: flex;
+    flex-direction: column;
+}
+
+.cardHeaderTitle{
+    font-size: 1rem;
+}
+
+.cardHeaderValue{
+    font-size: 1.5rem;
+    margin-top: 5px;
+    font-weight: 500;
+
+}
+
+.cardHeaderIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+    border-radius: 50px;
+    width: 60px;
+    height: 60px;
+}
+
+.cardHeaderIcon i {
+    color: #fff;
+}
