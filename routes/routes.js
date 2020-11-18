@@ -7,6 +7,7 @@ transactionRouter.get('/find/id/:id', transactionService.findById);
 transactionRouter.post('/create', transactionService.create);
 transactionRouter.put('/update/:id', transactionService.update);
 transactionRouter.delete('/delete/:id', transactionService.deleteOne);
+transactionRouter.post('/find/description/', transactionService.findByDescription);
 
 
 module.exports = transactionRouter;

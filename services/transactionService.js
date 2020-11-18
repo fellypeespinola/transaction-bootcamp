@@ -9,7 +9,9 @@ const TransactionModel = require("../models/TransactionModel");
 
 const findById = async function (req, res) {
   try {
-    const transaction = await TransactionModel.findOne({ _id: ObjectId(req.params.id) });
+    const transaction = await TransactionModel.findOne({
+      _id: ObjectId(req.params.id),
+    });
 
     res.send(transaction);
   } catch (e) {
@@ -62,16 +64,34 @@ const update = async function (req, res) {
 
 const deleteOne = async function (req, res) {
   try {
-    const transaction = await TransactionModel.deleteOne(
-      {_id: ObjectId(req.params.id)}
-    );
+    const transaction = await TransactionModel.deleteOne({
+      _id: ObjectId(req.params.id),
+    });
 
-    const deleted = (transaction.n == 1) ? true : false;
+    const deleted = transaction.n == 1 ? true : false;
 
-    res.send({deleted});
+    res.send({ deleted });
   } catch (e) {
     res.status(500).send({ error: e.message });
   }
 };
 
-module.exports = { findById, findByDate, create, update, deleteOne };
+const findByDescription = async function (req, res) {
+  try {
+    const result = await TransactionModel.find({
+      description: { $regex: req.body.term, $options: "i" },
+    });
+    res.send(result);
+  } catch (e) {
+    res.status(500).send({ error: e.message });
+  }
+};
+
+module.exports = {
+  findById,
+  findByDate,
+  create,
+  update,
+  deleteOne,
+  findByDescription,
+};
