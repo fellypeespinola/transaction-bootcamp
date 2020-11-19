@@ -30,7 +30,7 @@ export default function Calendar({ onChangeDateEmit }) {
   }, []);
 
   return (
-    <div className="input-field col s12">
+    <div className="input-field col s6">
       <select value={selectedDate} onChange={handleChangeDate}>
         {years.map((year) => {
           return months.map((month, index) => {

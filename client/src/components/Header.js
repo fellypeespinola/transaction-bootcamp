@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CardHeader from "./CardHeader";
 import Calendar from "./Calendar";
 import { formatCurrency } from "../helpers/formatValues";
+import Search from "./Search";
 
 export default function Header({
   onChangeDateEmit,
@@ -11,6 +12,7 @@ export default function Header({
   const [lancamentos, setLancamentos] = useState(0);
   const [receitas, setReceitas] = useState(0);
   const [despesas, setDespesas] = useState(0);
+  const [transactionList, setTransactionList] = useState({});
 
   const calcTransactions = () => {
     let r = 0;
@@ -33,16 +35,22 @@ export default function Header({
 
   useEffect(() => {
     calcTransactions();
+    setTransactionList(transactions);
   }, [transactions]);
 
   const handleChangeDate = (value) => {
     onChangeDateEmit(value);
   };
 
+  const handlleChangeSearch = (found) => {
+    setTransactionList(found);
+  }
+
   return (
     <div className="container">
       <div className="row">
         <Calendar onChangeDateEmit={handleChangeDate} />
+        <Search transactions={transactionList} onChangeSearchEmit={handlleChangeSearch} />
       </div>
       <div className="row">
         <div className="col s12">
