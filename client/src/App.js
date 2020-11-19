@@ -22,7 +22,7 @@ export default function App() {
   return (
     <div>
       <Navbar />
-      <Header onChangeDateEmit={handleChangeDate} />
+      <Header onChangeDateEmit={handleChangeDate} transactions={transactions} />
       <Table transactions={transactions} />
     </div>
   );
