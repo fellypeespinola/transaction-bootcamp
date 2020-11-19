@@ -6,10 +6,12 @@ const api = axios.create({
 });
 
 const findByDate = async (date) => {
-  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     api.get(`transaction?period=${date}`).then((data) => {
-      console.log(data);
-      resolve(data);
+      // console.log(data);
+      resolve(data.data);
+    }).catch(() => {
+      reject();
     });
   });
 };
