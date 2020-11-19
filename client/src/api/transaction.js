@@ -7,12 +7,28 @@ const api = axios.create({
 
 const findByDate = async (date) => {
   return new Promise((resolve, reject) => {
-    api.get(`transaction?period=${date}`).then((data) => {
-      resolve(data.data);
-    }).catch(() => {
-      reject();
-    });
+    api
+      .get(`transaction?period=${date}`)
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch(() => {
+        reject();
+      });
   });
 };
 
-export { findByDate };
+const getTotalAccount = async () => {
+  return new Promise((resolve, reject) => {
+    api
+      .get("transaction/sum/total/")
+      .then((data) => {
+        resolve(data.data);
+      })
+      .catch(() => {
+        reject();
+      });
+  });
+};
+
+export { findByDate, getTotalAccount };

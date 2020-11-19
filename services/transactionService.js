@@ -87,6 +87,24 @@ const findByDescription = async function (req, res) {
   }
 };
 
+const sumValueAccount = async function (req, res) {
+  try {
+    const result = await TransactionModel.aggregate().group({_id: "$type", soma: {$sum : '$value'}});
+
+    const soma = result.reduce((sum, group) => {
+      if(group._id === '+') {
+        sum = sum + group.soma;
+      } else if (group._id === '-'){
+        sum = sum - group.soma;
+      }
+      return sum;
+    }, 0)
+    res.send({total: soma});
+  } catch (e) {
+    res.status(500).send({ error: e.message });
+  }
+};
+
 module.exports = {
   findById,
   findByDate,
@@ -94,4 +112,5 @@ module.exports = {
   update,
   deleteOne,
   findByDescription,
+  sumValueAccount
 };

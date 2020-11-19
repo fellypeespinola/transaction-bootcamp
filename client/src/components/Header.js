@@ -3,11 +3,14 @@ import CardHeader from "./CardHeader";
 import Calendar from "./Calendar";
 import { formatCurrency } from "../helpers/formatValues";
 
-export default function Header({ onChangeDateEmit, transactions }) {
+export default function Header({
+  onChangeDateEmit,
+  transactions,
+  totalAccount,
+}) {
   const [lancamentos, setLancamentos] = useState(0);
   const [receitas, setReceitas] = useState(0);
   const [despesas, setDespesas] = useState(0);
-  const [saldo, setSaldo] = useState(0);
 
   const calcTransactions = () => {
     let r = 0;
@@ -26,7 +29,6 @@ export default function Header({ onChangeDateEmit, transactions }) {
     setReceitas(r);
     setDespesas(d);
     setLancamentos(transactions.length);
-    console.log("Length " + transactions.length);
   };
 
   useEffect(() => {
@@ -68,7 +70,7 @@ export default function Header({ onChangeDateEmit, transactions }) {
         />
         <CardHeader
           name="Saldo"
-          value={saldo}
+          value={formatCurrency(totalAccount)}
           icon="local_atm"
           iconColor="#00796B"
         />

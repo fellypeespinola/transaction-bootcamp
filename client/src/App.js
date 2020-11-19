@@ -6,23 +6,34 @@ import Table from "./components/Table";
 
 export default function App() {
   const [transactions, setTransactions] = useState([]);
+  const [totalAccount, setTotalAccount] = useState(0);
 
   const handleChangeDate = (value) => {
-    getTransationsApi(value);
+    getTransationsByDateApi(value);
   };
 
-  const getTransationsApi = async (value = "2020-11") => {
+  const getTransationsByDateApi = async (value = "2020-11") => {
     const result = await transaction.findByDate(value);
     setTransactions(result);
   };
 
+  const getTotalAccount = async () => {
+    const result = await transaction.getTotalAccount();
+    setTotalAccount(result.total);
+  };
+
   useEffect(() => {
-    getTransationsApi();
+    getTransationsByDateApi();
+    getTotalAccount();
   }, []);
   return (
     <div>
       <Navbar />
-      <Header onChangeDateEmit={handleChangeDate} transactions={transactions} />
+      <Header
+        onChangeDateEmit={handleChangeDate}
+        transactions={transactions}
+        totalAccount={totalAccount}
+      />
       <Table transactions={transactions} />
     </div>
   );
