@@ -6,25 +6,23 @@ import Table from "./components/Table";
 
 export default function App() {
   const [transactions, setTransactions] = useState([]);
+
+  const handleChangeDate = (value) => {
+    getTransationsApi(value);
+  };
+
+  const getTransationsApi = async (value = "2020-11") => {
+    const result = await transaction.findByDate(value);
+    setTransactions(result);
+  };
+
   useEffect(() => {
-    async function fetchData() {
-      // transaction.findByDate("2020-11").then(result => {
-      //   console.log(result)
-      //   setTransactions(result);
-      // });   
-
-      const result = await transaction.findByDate("2020-11");
-      console.log(result);
-      setTransactions(result);
-      
-    }
-
-    fetchData();
+    getTransationsApi();
   }, []);
   return (
     <div>
       <Navbar />
-      <Header />
+      <Header onChangeDateEmit={handleChangeDate} />
       <Table transactions={transactions} />
     </div>
   );

@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import CardHeader from "./CardHeader";
 import Calendar from "./Calendar";
 
-export default function Header() {
+export default function Header({ onChangeDateEmit }) {
+  const handleChangeDate = (value) => {
+    onChangeDateEmit(value);
+  };
+
   return (
     <div className="container">
       <div className="row">
-        <Calendar />
+        <Calendar onChangeDateEmit={handleChangeDate} />
       </div>
       <div className="row">
         <div className="col s12">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 
-export default function Calendar() {
+export default function Calendar({ onChangeDateEmit }) {
   const nowDate = new Date(Date.now());
   const initialDate = `${nowDate.getMonth() + 1}-${nowDate.getFullYear()}`;
   const [selectedDate, setSelectedDate] = useState(initialDate);
@@ -21,7 +21,9 @@ export default function Calendar() {
   ];
   const years = ["2019", "2020", "2021"];
 
-  const handleChange = (event) => {};
+  const handleChangeDate = (event) => {
+    onChangeDateEmit(event.target.value);
+  };
 
   useEffect(() => {
     M.AutoInit();
@@ -29,13 +31,13 @@ export default function Calendar() {
 
   return (
     <div className="input-field col s12">
-      <select value={selectedDate} onChange={handleChange}>
+      <select value={selectedDate} onChange={handleChangeDate}>
         {years.map((year) => {
           return months.map((month, index) => {
             return (
               <option
-                key={`${index + 1}-${year}`}
-                value={`${index + 1}-${year}`}
+                key={`${year}-${index + 1}`}
+                value={`${year}-${index + 1}`}
               >
                 {month}/{year}
               </option>
