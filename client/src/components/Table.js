@@ -1,4 +1,6 @@
 import React from "react";
+import css from "./table.module.css"
+import { formatCurrency } from "../helpers/formatValues"
 
 export default function Table({ transactions }) {
   return (
@@ -16,13 +18,16 @@ export default function Table({ transactions }) {
 
         <tbody>
           {transactions.map((transaction) => {
-            return (
-              <tr key={transaction._id}>
-                <td>{transaction.type}</td>
+             return (
+              <tr key={transaction._id} style={(transaction.type === "+") ? {backgroundColor: '#F1F3FF'} : {}}>
+                <td>{(transaction.type === "+") ? <i className={`${css.tableIcon} small material-icons`} style={{color:'#4CAF50'}}>add_circle</i> : <i class={`${css.tableIcon} small material-icons`} style={{color:'#F44336'}}>remove_circle</i>}</td>
                 <td>{transaction.description}</td>
                 <td>{transaction.category}</td>
-                <td>{transaction.value}</td>
-                <td></td>
+                <td>{formatCurrency(transaction.value)}</td>
+                <td>
+                  <i className={`${css.tableIcon} small material-icons`}>edit</i>
+                  <i className={`${css.tableIcon} small material-icons`}>delete</i>
+                </td>
               </tr>
             );
           })}
