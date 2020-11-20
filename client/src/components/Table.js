@@ -1,79 +1,31 @@
 import React, { useEffect } from "react";
 import css from "./table.module.css";
 import { formatCurrency } from "../helpers/formatValues";
-import Modal from "react-modal";
-import M from "materialize-css/dist/js/materialize.min.js";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    minWidth: '500px'
-  },
-};
-
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-Modal.setAppElement("#root");
+import Modal from "./Modal";
 
 export default function Table({ transactions }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  var subtitle;
+  const [selectedTransaction, setSelectedTransaction] = React.useState({});
 
-  function openModal() {
+  const openModal = (transaction) => {
     setIsOpen(true);
-  }
+    setSelectedTransaction(transaction);
+  };
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = "#f00";
-    var elems = document.querySelectorAll(".datepicker");
-    var instances = M.Datepicker.init(elems);
-  }
-
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false);
-  }
+  };
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="container">
-      <button onClick={openModal}>Open Modal</button>
       <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
-        <button onClick={closeModal}>close</button>
-        <form>
-          <div className="input-field">
-            <input id="descripion" type="text" className="validate" />
-            <label htmlFor="descripion">Descrição</label>
-          </div>
-          <div className="input-field">
-            <input id="category" type="text" className="validate" />
-            <label htmlFor="category">Categoria</label>
-          </div>
-          <div className="input-field">
-            <input id="value" type="text" className="validate" />
-            <label htmlFor="value">Valor</label>
-          </div>
-          <div className="input-field">
-            <input id="data" type="text" className="datepicker" />
-
-            <label htmlFor="data">Data</label>
-          </div>
-        </form>
-      </Modal>
+        modalIsOpen={modalIsOpen}
+        modalClose={closeModal}
+        transaction={selectedTransaction}
+        edit={true}
+      />
 
       <table className="responsive-table ">
         <thead>
@@ -116,9 +68,11 @@ export default function Table({ transactions }) {
                 <td>{transaction.category}</td>
                 <td>{formatCurrency(transaction.value)}</td>
                 <td>
-                  <i className={`${css.tableIcon} small material-icons`}>
-                    edit
-                  </i>
+                  <a onClick={() => openModal(transaction)}>
+                    <i className={`${css.tableIcon} small material-icons`}>
+                      edit
+                    </i>
+                  </a>
                   <i className={`${css.tableIcon} small material-icons`}>
                     delete
                   </i>

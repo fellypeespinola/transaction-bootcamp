@@ -22,6 +22,10 @@ export default function App() {
     setTotalAccount(result.total);
   };
 
+  const handleChageSearch = (found) => {
+    setTransactions(found);
+  };
+
   useEffect(() => {
     getTransationsByDateApi();
     getTotalAccount();
@@ -33,6 +37,7 @@ export default function App() {
         onChangeDateEmit={handleChangeDate}
         transactions={transactions}
         totalAccount={totalAccount}
+        onChageSearchEmit={handleChageSearch}
       />
       <Table transactions={transactions} />
     </div>

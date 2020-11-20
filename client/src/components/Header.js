@@ -8,11 +8,11 @@ export default function Header({
   onChangeDateEmit,
   transactions,
   totalAccount,
+  onChageSearchEmit,
 }) {
   const [lancamentos, setLancamentos] = useState(0);
   const [receitas, setReceitas] = useState(0);
   const [despesas, setDespesas] = useState(0);
-  const [transactionList, setTransactionList] = useState({});
 
   const calcTransactions = () => {
     let r = 0;
@@ -35,7 +35,6 @@ export default function Header({
 
   useEffect(() => {
     calcTransactions();
-    setTransactionList(transactions);
   }, [transactions]);
 
   const handleChangeDate = (value) => {
@@ -43,14 +42,17 @@ export default function Header({
   };
 
   const handlleChangeSearch = (found) => {
-    setTransactionList(found);
-  }
+    onChageSearchEmit(found);
+  };
 
   return (
     <div className="container">
       <div className="row">
         <Calendar onChangeDateEmit={handleChangeDate} />
-        <Search transactions={transactions} onChangeSearchEmit={handlleChangeSearch} />
+        <Search
+          transactions={transactions}
+          onChangeSearchEmit={handlleChangeSearch}
+        />
       </div>
       <div className="row">
         <div className="col s12">
