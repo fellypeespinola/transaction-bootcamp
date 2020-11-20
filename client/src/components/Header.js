@@ -50,7 +50,7 @@ export default function Header({
     <div className="container">
       <div className="row">
         <Calendar onChangeDateEmit={handleChangeDate} />
-        <Search transactions={transactionList} onChangeSearchEmit={handlleChangeSearch} />
+        <Search transactions={transactions} onChangeSearchEmit={handlleChangeSearch} />
       </div>
       <div className="row">
         <div className="col s12">
